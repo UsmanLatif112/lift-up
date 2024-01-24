@@ -1,5 +1,14 @@
+
+    
 class Google:
-    Google_Search = '//*[@name="q"]'
+    g_home_pagee = '//*[@name="q"]'
+    g_search_form = '//*[@id = "searchform"]'
+    
+    
+    
+    
+    
+    
     G_AUTH_page = "//span[contains(normalize-space(), 'Check your email')]"
     G_Email = "//*[@type='email']"
     G_Email_Pass = "//*[@type='password']"
@@ -16,3 +25,4 @@ class Google:
     twiter_login_btn = "//*[@dir='ltr'][@style='color: rgb(15, 20, 25);'][contains(normalize-space(), 'Log in')]"
     twiter_authcode = "//*[@dir='ltr']/input[@name='text']"
     twiter_twiter_authcode_btn = "//*[@dir='ltr'][@style='color: rgb(15, 20, 25);'][contains(normalize-space(), 'Next')]"
+    
