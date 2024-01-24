@@ -7,8 +7,8 @@ from lib.Resources import *
 """==============================="""
 mouse_movement_delay = 2.5
 scroll_delay = 1
-mouse_movement_delayy = 1
-scroll_delayy = 1
+mouse_movement_delayy = 3
+scroll_delayy = 3
 """==============================="""
 # Read values from CSV file
 # Read keyword-URL pairs from CSV file
