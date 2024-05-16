@@ -2,7 +2,7 @@ from gologin import GoLogin
 
 
 gl = GoLogin({
-	"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NWFmZWQzZDQ5MWQ1MzJkMDgzNDZjNDYiLCJ0eXBlIjoiZGV2Iiwiand0aWQiOiI2NWFmZWUzMjI3MmE5ZmI1ZmY5OTlkM2EifQ.t1dVMtPypOcInLeB7GMDeTR19Jtdre8dEtK-kpL-MnA",
+	"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjQ2NjA3YjUxNTg1ZDI2ZGI1Yjg3NjMiLCJ0eXBlIjoiZGV2Iiwiand0aWQiOiI2NjQ2NjBjNDhlZDYwNzBlZDc2NzA1NWUifQ.kMMJ0HmTC7jKfD2J_WCJZ7ujFkiTpFb923VZ5oUEfUI",
 	})
 
 
@@ -53,7 +53,6 @@ def create_profile():
                                     # Having them enabled is generally advised but may increase browser profile loading times.
         }
     });
-    
     return profile_id
 
 # print('profile id=', profile_id);
@@ -68,3 +67,6 @@ def create_profile():
 # print('new profile name=', profile.get("name"));
 
 # # gl.delete('yU0Pr0f1leiD')
+
+if __name__ == "__main__":
+    create_profile()
