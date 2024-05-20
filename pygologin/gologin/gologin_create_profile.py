@@ -19,7 +19,7 @@ def create_profile():
         },
         'proxy': {
             'mode': 'gologin', # Specify 'none' if not using proxy
-            'autoProxyRegion': 'us' 
+            'autoProxyRegion': 'uk' 
             # "host": '',
             # "port": '',
             # "username": '',

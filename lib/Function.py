@@ -60,17 +60,6 @@ def random_mouse_movement(fixed_delay):
         time.sleep(fixed_delay)
 
 
-# def scroll_page(driver, fixed_delay):
-#     # Get the scroll height of the page
-#     scroll_height = driver.execute_script("return document.body.scrollHeight")
-#     scroll_position = 0
-#     # Scroll through the page until the end
-#     while scroll_position < scroll_height:
-#         scroll_position += random.randint(300, 500)  # Adjust the scroll distance if needed
-#         driver.execute_script(f"window.scrollTo(0, {scroll_position});")
-#         # Fixed delay after the scroll
-#         time.sleep(fixed_delay)
-
 def scroll_page(driver, fixed_delay):
     # Get the scroll height of the page
     scroll_height = driver.execute_script("return document.body.scrollHeight")
@@ -156,3 +145,30 @@ class HomePage(BasePage):
             f.writelines(data)
             
             
+def random_mouse_movemen_t(duration):
+    start_time = time.time()
+    screen_width, screen_height = pyautogui.size()
+    
+    while time.time() - start_time < duration:
+        # Generate random coordinates within the screen size
+        random_x = random.randint(0, screen_width - 1)
+        random_y = random.randint(0, screen_height - 1)
+        
+        # Move the mouse to the random coordinates
+        pyautogui.moveTo(random_x, random_y, duration=random.uniform(0.5, 1))
+        
+        # Wait for a random time before the next move
+        time.sleep(random.uniform(1, 2))
+        
+def random_scrol_l(duration):
+    start_time = time.time()
+    
+    while time.time() - start_time < duration:
+        # Generate a random scroll amount
+        scroll_amount = random.randint(-10, 10)
+        
+        # Scroll the page
+        pyautogui.scroll(scroll_amount)
+        
+        # Wait for a random time before the next scroll
+        time.sleep(random.uniform(1, 2.5))

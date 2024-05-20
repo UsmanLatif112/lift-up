@@ -2,7 +2,7 @@ import random
 from gologin import GoLogin
 
 def create_profile():
-    proxy_list=['us', 'ca', 'uk', 'de', 'in']
+    proxy_list=['uk']
     proxy=random.choice(proxy_list)
     print(
         f'Going to use following proxy {proxy}'
