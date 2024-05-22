@@ -139,12 +139,32 @@ class HomePage(BasePage):
             print(f"Element with XPath '{xpath}' not found within {timeout} seconds.")
             raise e
         
-    def make_csv(self, filename: str, data, new=True):
-        mode = 'w' if new else 'a'
+    # def make_csv(self, filename: str, data, new= Truerue):
+    #     mode = 'w' if new else 'a'
+    #     with open(filename, mode, newline='') as f:
+    #         f.writelines(data)
+    
+    def make_csv(self, filename: str, data):
+        mode = 'a'  # Always append to the existing file
         with open(filename, mode, newline='') as f:
-            f.writelines(data)
+            writer = csv.writer(f)
+            writer.writerow(data)
             
-            
+# def random_mouse_movemen_t(duration):
+#     start_time = time.time()
+#     screen_width, screen_height = pyautogui.size()
+    
+#     while time.time() - start_time < duration:
+#         # Generate random coordinates within the screen size
+#         random_x = random.randint(0, screen_width - 1)
+#         random_y = random.randint(0, screen_height - 1)
+        
+#         # Move the mouse to the random coordinates
+#         pyautogui.moveTo(random_x, random_y, duration=random.uniform(0.5, 1))
+        
+#         # Wait for a random time before the next move
+#         time.sleep(random.uniform(1.5, 3))
+
 def random_mouse_movemen_t(duration):
     start_time = time.time()
     screen_width, screen_height = pyautogui.size()
@@ -154,21 +174,66 @@ def random_mouse_movemen_t(duration):
         random_x = random.randint(0, screen_width - 1)
         random_y = random.randint(0, screen_height - 1)
         
-        # Move the mouse to the random coordinates
-        pyautogui.moveTo(random_x, random_y, duration=random.uniform(0.5, 1))
+        # Move the mouse to the random coordinates with smooth movement
+        pyautogui.moveTo(random_x, random_y, duration=random.uniform(0.5, 2), tween=pyautogui.easeInOutQuad)
         
         # Wait for a random time before the next move
-        time.sleep(random.uniform(1, 2))
+        time.sleep(random.uniform(0.5, 1.5))
         
 def random_scrol_l(duration):
     start_time = time.time()
     
     while time.time() - start_time < duration:
         # Generate a random scroll amount
-        scroll_amount = random.randint(-10, 10)
+        scroll_amount = random.randint(300, 500)
         
         # Scroll the page
         pyautogui.scroll(scroll_amount)
         
         # Wait for a random time before the next scroll
         time.sleep(random.uniform(1, 2.5))
+        
+
+# def human_like_scroll(driver, duration):
+#     """
+#     This function scrolls the page in a random manner to simulate human-like scrolling behavior.
+
+#     Args:
+#     driver (webdriver): The Selenium WebDriver instance.
+#     duration (int): The total duration (in seconds) for the scrolling action.
+#     """
+#     end_time = time.time() + duration
+#     while time.time() < end_time:
+#         # Generate a random scroll amount
+#         scroll_amount = random.randint(200, 800)
+        
+#         # Scroll up or down randomly
+#         scroll_direction = random.choice([-1, 1])
+        
+#         ActionChains(driver).scroll_by_amount(0, scroll_direction * scroll_amount).perform()
+        
+#         # Random sleep to simulate human-like scroll intervals
+#         sleep_time = random.uniform(0.5, 2.0)
+#         time.sleep(sleep_time)
+
+def gentle_human_like_scroll(driver, duration):
+    """
+    This function scrolls the page gently in a human-like manner.
+
+    Args:
+    driver (webdriver): The Selenium WebDriver instance.
+    duration (int): The total duration (in seconds) for the scrolling action.
+    """
+    end_time = time.time() + duration
+    while time.time() < end_time:
+        # Generate a small random scroll amount
+        scroll_amount = random.randint(20, 1000)
+        
+        # Scroll up or down randomly
+        scroll_direction = random.choice([-1, 1])
+        
+        ActionChains(driver).scroll_by_amount(0, scroll_direction * scroll_amount).perform()
+        
+        # Random sleep to simulate human-like scroll intervals
+        sleep_time = random.uniform(0.5, 1)
+        time.sleep(sleep_time)

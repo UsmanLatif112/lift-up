@@ -3,103 +3,191 @@ from lib.Function import *
 from lib.Data import *
 from lib.Driver import create_and_start_driver
 from lib.Resources import *
+import csv
+import datetime
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
-"""==============================="""
+# ===============================
 mouse_movement_delay = 2.5
 scroll_delay = 1
-mouse_movement_delayy = 3
-scroll_delayy = 3
-"""==============================="""
-# # Read values from CSV file
-# # Read keyword-URL pairs from CSV file
-# csv_file_path = "Website.csv"
-# keyword_url_dict = read_csv_file(csv_file_path)
-"""==============================="""
+mouse_move_delay = 3
+scroll_move_delay = 3
+# ===============================
+csv_file_path = 'website.csv'
+homepage = HomePage(driver)
 
-
-# Iterate through keywords and open corresponding URLs
-# for keyword, url in keyword_url_dict.items():
-#     # Create and start the driver
-driver, gl, profile_id = create_and_start_driver()
-
-if driver is not None and gl is not None and profile_id is not None:
-    try:
-        actions = ActionChains(driver)
-        # Open URL corresponding to the keyword
-        driver.get("https://www.google.com/")
-        # open google page.
+with open(csv_file_path, 'r') as file:
+    reader = csv.reader(file)
+    next(reader)
+    for row in reader:
         try:
-            time.sleep(1)
-            accptance_modalll = HomePage(driver)
-            accptance_modalll.wait(Google.accptance_modal)
-            modall = driver.find_element(By.XPATH, Google.accptance_modal)
-            actions.move_to_element(modall).perform()
-            time.sleep(2)
-            accptance_moda_l = HomePage(driver)
-            accptance_moda_l.click_btn(Google.accptance_modal)
-        except Exception as e:
-            print(e)
-        try:
-            time.sleep(2)
-            google_page = HomePage(driver)
-            google_page.wait(Google.g_home_pagee)
-            # Enter keword.
-            time.sleep(0.5)
-            google_search = HomePage(driver)
-            google_search.click_btn(Google.g_home_pagee)
-            time.sleep(0.5)
-            google_search = HomePage(driver)
-            google_search.enter_name_delay(Google.g_home_pagee, 'Comfort FIRM 8000 in Visco Therapy Memory Foam Mattress')
-            google_search = HomePage(driver)
-            google_search.click_btn(Google.g_home_pagee)
-            # Hit Enter
-            time.sleep(1)
-            action_chains = ActionChains(driver)
-            action_chains.send_keys(Keys.ENTER).perform()
-                
-            google_page = HomePage(driver)
-            google_page.wait(Google.g_search_form)
-            print(" result page")
-            time.sleep(1)
-            google_search = HomePage(driver)
-            google_search.click_btn(Google.image_tab)
-            time.sleep(2)
-            try:
-                result_mine = driver.find_elements(By.XPATH, "//a[contains(normalize-space(), 'Mattress Corner')]")
-                for result in result_mine:
-                    time.sleep(1)
-                    actions.key_down(Keys.CONTROL).click(result).key_up(Keys.CONTROL).perform()
-                    time.sleep(1)
-                    driver.switch_to.window(driver.window_handles[1])
-                    time.sleep(5)
+            title = row[0]  
+            # Create and start the driver
+            driver, gl, profile_id = create_and_start_driver()
+
+            if driver is not None and gl is not None and profile_id is not None:
+                try:     
+                    actions = ActionChains(driver)
+                    driver.get("https://www.google.com/")
                     try:
-                        modal_cancel_1 = WebDriverWait(driver, 60).until(EC.presence_of_element_located((By.XPATH, "//*[@class='elementor-container elementor-column-gap-default'][contains(normalize-space(), 'WELCOME TO MATTRESS CORNER')]")))
+                        time.sleep(5)
+                        pyautogui.press('esc')
                         time.sleep(1)
-                        actions.send_keys(Keys.ESCAPE).perform()
+                        accptance_modalll = HomePage(driver)
+                        accptance_modalll.wait(Google.accptance_modal)
+                        modall = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, Google.accptance_modal)))
+                        if modall:
+                            actions.move_to_element(modall).perform()
+                            time.sleep(2)
+                            accptance_moda_l = HomePage(driver)
+                            accptance_moda_l.click_btn(Google.accptance_modal)
+                        else:
+                            current_time = datetime.datetime.now()
+                            homepage.make_csv('fragrancedirect.csv', ["No google acceptance modal found", current_time])
+                            homepage.make_csv('fragrancedirect.csv', ["\n",])
+                    except:
+                        pass
+                        print("exception0")
+                    try:
+                        time.sleep(2)
+                        google_page = HomePage(driver)
+                        google_page.wait(Google.g_home_pagee)
+                        time.sleep(0.5)
+                        google_search = HomePage(driver)
+                        google_search.click_btn(Google.g_home_pagee)
+                        time.sleep(0.5)
+                        google_search = HomePage(driver)
+                        google_search.enter_name_delay(Google.g_home_pagee, title)
+                        google_search = HomePage(driver)
+                        google_search.click_btn(Google.g_home_pagee)
                         time.sleep(1)
-                    except Exception as e:
-                        print(e)
-                    random_scrol_l(5)
-                    random_mouse_movemen_t(5)
-                    time.sleep(1)
-                    driver.close()
-                    time.sleep(1)
-                    driver.switch_to.window(driver.window_handles[0])
-            except Exception as e:
-                print(e)       
-            time.sleep(2)
-        except Exception as e:
-            print(e)
-        #Stop Browser
-        # import pdb
-        # pdb.set_trace()
-        
-        gl.stop()
-        
-        gl.delete(profile_id)
-        
-        
-    except Exception as e:
-        print(e)
-else:
-        print("Driver initialization failed.")
+                        action_chains = ActionChains(driver)
+                        action_chains.send_keys(Keys.ENTER).perform()
+                        google_page = HomePage(driver)
+                        google_page.wait(Google.g_search_form)
+                        # time.sleep(1)
+                        # gentle_human_like_scroll(driver, duration=5)
+                        # time.sleep(1)
+                        # random_mouse_movemen_t(3)
+                        # time.sleep(1)
+                        # random_mouse_movemen_t(3)
+                        time.sleep(2)
+                    except:
+                        pass
+                        current_time = datetime.datetime.now()
+                        homepage.make_csv('fragrancedirect.csv', ["Error on google page search", current_time])
+                        homepage.make_csv('fragrancedirect.csv', ["\n",])
+                    try:
+                        time.sleep(1)
+                        image_button = driver.find_element(By.XPATH, Google.image_tab)
+                        actions.move_to_element(image_button).perform()
+                        time.sleep(1)
+                        google_search = HomePage(driver)
+                        google_search.click_btn(Google.image_tab)
+                        time.sleep(2)
+                        time.sleep(1)
+                        # gentle_human_like_scroll(driver, duration=5)
+                        # time.sleep(1)
+                        # random_mouse_movemen_t(3)
+                        # time.sleep(1)
+                        # random_mouse_movemen_t(3)
+                        time.sleep(1)
+                    except:
+                        current_time = datetime.datetime.now()
+                        homepage.make_csv('fragrancedirect.csv', ["Error on google_image page search", current_time])
+                        homepage.make_csv('fragrancedirect.csv', ["\n",])
+                    try:
+                        print("Searching for result")
+                        time.sleep(1)
+                        result_mine = driver.find_elements(By.XPATH, "//a[contains(normalize-space(), 'Mattress Corner')]")
+                        time.sleep(1)
+                        if not result_mine:
+                            print("Found result")
+                            current_time = datetime.datetime.now()
+                            homepage.make_csv('fragrancedirect.csv', [f"title({title}) Not found in this iteration", current_time])
+                            homepage.make_csv('fragrancedirect.csv', ["\n",])
+                            time.sleep(5)            
+                            try:    
+                                gl.stop()
+                            except:
+                                print("error 2")
+                            try: 
+                                gl.delete(profile_id)
+                            except:
+                                print("error 3")
+                            continue   
+                        if result_mine:
+                            result_min_e = driver.find_elements(By.XPATH, "//a[contains(normalize-space(), 'Mattress Corner')]")
+                            num_resu_lt = len(result_min_e)
+                            time.sleep(5)
+                            for x in range(1 ,num_resu_lt + 1):
+                                print("result_mine found")
+                                btnx = driver.find_element(By.XPATH, f"(//a[contains(normalize-space(), 'Mattress Corner')])[{x}]")
+                                time.sleep(2)
+                                try:
+                                    print("for test try")
+                                    action_chains.move_to_element(btnx).perform()
+                                    btnx.click()
+                                    time.sleep(1)
+                                    # actions.key_down(Keys.CONTROL).click(btnx).key_up(Keys.CONTROL).perform()
+                                    time.sleep(1)
+                                    driver.switch_to.window(driver.window_handles[1])
+                                    time.sleep(5)
+                                    modal_cancel_1 = WebDriverWait(driver, 60).until(EC.presence_of_element_located((By.XPATH, "//*[@class='elementor-container elementor-column-gap-default'][contains(normalize-space(), 'WELCOME TO MATTRESS CORNER')]")))
+                                    time.sleep(3)
+                                    actions.send_keys(Keys.ESCAPE).perform()
+                                    time.sleep(3)
+                                    actions.send_keys(Keys.ESCAPE).perform()
+                                    # time.sleep(1)
+                                    # gentle_human_like_scroll(driver, duration=5)
+                                    # time.sleep(1)
+                                    # random_mouse_movemen_t(3)
+                                    # time.sleep(1)
+                                    # random_mouse_movemen_t(3)
+                                    time.sleep(2)
+                                    current_time = datetime.datetime.now()
+                                    homepage.make_csv('fragrancedirect.csv', [f"title({title}) found in this iteration", current_time])
+                                    homepage.make_csv('fragrancedirect.csv', ["\n",])
+                                    time.sleep(1)
+                                    driver.close()
+                                    time.sleep(1)
+                                    driver.switch_to.window(driver.window_handles[0])
+                                except:
+                                    print("exception 3")
+                                    current_time = datetime.datetime.now()
+                                    homepage.make_csv('fragrancedirect.csv', [f"title({title}) Not found in this iteration", current_time])
+                                    homepage.make_csv('fragrancedirect.csv', ["\n",])
+                    except:
+                        pass
+                        print("exception 4")
+                        current_time = datetime.datetime.now()
+                        homepage.make_csv('fragrancedirect.csv', ["Error on processing the images page result", current_time])
+                        homepage.make_csv('fragrancedirect.csv', ["\n",])
+                except:
+                    pass
+                    print("exception 5")
+                    current_time = datetime.datetime.now()
+                    homepage.make_csv('fragrancedirect.csv', ["error on processing the loop", current_time])
+                    homepage.make_csv('fragrancedirect.csv', ["\n",])
+                time.sleep(5)            
+                try:    
+                    gl.stop()
+                except:
+                    print("error 2")
+                try: 
+                    gl.delete(profile_id)
+                except:
+                    print("error 3")
+            else:
+                print("Driver initialization failed.")               
+        except:
+            pass
+            print("exception 5")
+            current_time = datetime.datetime.now()
+            homepage.make_csv('fragrancedirect.csv', ["error on processing the script", current_time])
+            homepage.make_csv('fragrancedirect.csv', ["\n",])
+    
