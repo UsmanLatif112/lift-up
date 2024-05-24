@@ -1,13 +1,12 @@
-
 google_Search_data = "youtube"
 
 
 url_google = "www.google.com"
 url_store = "https://twitter.com/i/flow/login"
 
+go_login_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjUwYzBkNDBlODNhMDZlZGE3ZWFjMjQiLCJ0eXBlIjoiZGV2Iiwiand0aWQiOiI2NjUwYzI3ZWI5ZTZlZmQxN2JlMjYwN2EifQ.0Naz8KicuFy5yGnSeuEhHByomxBMbw3kI3LaW3jM6Mk"
 
-        
-        
+
 # import csv
 # def read_csv_file(file_path):
 #     """

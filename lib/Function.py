@@ -1,6 +1,7 @@
 from lib2to3.pgen2 import driver
 from lib.Imports import *
 from lib.Driver import create_and_start_driver
+
 # Get the screen resolution
 # root = tk.Tk()
 # screen_width = root.winfo_screenwidth()
@@ -10,9 +11,9 @@ from lib.Driver import create_and_start_driver
 # def random_mouse_movement():
 #     x, y = random.randint(0, screen_width), random.randint(0, screen_height)
 #     pyautogui.moveTo(x, y, duration=1)
-#     time.sleep(2) 
-        
-        
+#     time.sleep(2)
+
+
 # def scroll_page():
 #     scroll_height = driver.execute_script("return document.body.scrollHeight")
 #     scroll_position = 0
@@ -30,7 +31,8 @@ from lib.Driver import create_and_start_driver
 #     pyautogui.moveTo(x, y, duration=random.uniform(0.5, 2.5))
 #     # Fixed delay after the movement
 #     time.sleep(fixed_delay)
-    
+
+
 def random_mouse_movement(fixed_delay):
     # Automatically get screen resolution
     screen_width, screen_height = pyautogui.size()
@@ -63,14 +65,16 @@ def random_mouse_movement(fixed_delay):
 def scroll_page(driver, fixed_delay):
     # Get the scroll height of the page
     scroll_height = driver.execute_script("return document.body.scrollHeight")
-    scroll_position = driver.execute_script("return window.pageYOffset")  # Start with the current scroll position
+    scroll_position = driver.execute_script(
+        "return window.pageYOffset"
+    )  # Start with the current scroll position
 
     # Decide the sequence of scrolls: 10 down and 10 up
-    scroll_sequence = ['down'] * 5 + ['up'] * 5
+    scroll_sequence = ["down"] * 5 + ["up"] * 5
     random.shuffle(scroll_sequence)  # Shuffle the sequence to randomize up/down order
 
     for scroll_direction in scroll_sequence:
-        if scroll_direction == 'down':
+        if scroll_direction == "down":
             # Scroll down
             scroll_position += random.randint(300, 500)
             # Ensure that we do not scroll past the bottom of the page
@@ -86,8 +90,11 @@ def scroll_page(driver, fixed_delay):
 
         # Fixed delay after the scroll
         time.sleep(fixed_delay)
-        
+
+
 import csv
+
+
 def read_csv_file(file_path):
     """
     Read a CSV file and return a dictionary with keywords as keys and URLs as values.
@@ -109,26 +116,27 @@ def read_csv_file(file_path):
                 keyword_url_dict[keyword] = url
 
     return keyword_url_dict
-             
+
+
 class BasePage:
     def __init__(self, driver):
         self.driver = driver
 
+
 class HomePage(BasePage):
-    
     def click_btn(self, xpath: str):
         self.driver.find_element(By.XPATH, xpath).click()
-        
+
     def enter_Name(self, xpath: str, clientname: str):
         self.driver.find_element(By.XPATH, xpath).send_keys(clientname)
-        
+
     def enter_name_delay(self, xpath: str, clientname: str, delay=0.2):
         element = self.wait(xpath)
         element.clear()
         for char in clientname:
             element.send_keys(char)
             time.sleep(delay)
-            
+
     def wait(self, xpath, timeout=10):
         try:
             element = WebDriverWait(self.driver, timeout).until(
@@ -138,61 +146,69 @@ class HomePage(BasePage):
         except Exception as e:
             print(f"Element with XPath '{xpath}' not found within {timeout} seconds.")
             raise e
-        
+
     # def make_csv(self, filename: str, data, new= Truerue):
     #     mode = 'w' if new else 'a'
     #     with open(filename, mode, newline='') as f:
     #         f.writelines(data)
-    
+
     def make_csv(self, filename: str, data):
-        mode = 'a'  # Always append to the existing file
-        with open(filename, mode, newline='') as f:
+        mode = "a"  # Always append to the existing file
+        with open(filename, mode, newline="") as f:
             writer = csv.writer(f)
             writer.writerow(data)
-            
+
+
 # def random_mouse_movemen_t(duration):
 #     start_time = time.time()
 #     screen_width, screen_height = pyautogui.size()
-    
+
 #     while time.time() - start_time < duration:
 #         # Generate random coordinates within the screen size
 #         random_x = random.randint(0, screen_width - 1)
 #         random_y = random.randint(0, screen_height - 1)
-        
+
 #         # Move the mouse to the random coordinates
 #         pyautogui.moveTo(random_x, random_y, duration=random.uniform(0.5, 1))
-        
+
 #         # Wait for a random time before the next move
 #         time.sleep(random.uniform(1.5, 3))
+
 
 def random_mouse_movemen_t(duration):
     start_time = time.time()
     screen_width, screen_height = pyautogui.size()
-    
+
     while time.time() - start_time < duration:
         # Generate random coordinates within the screen size
         random_x = random.randint(0, screen_width - 1)
         random_y = random.randint(0, screen_height - 1)
-        
+
         # Move the mouse to the random coordinates with smooth movement
-        pyautogui.moveTo(random_x, random_y, duration=random.uniform(0.5, 2), tween=pyautogui.easeInOutQuad)
-        
+        pyautogui.moveTo(
+            random_x,
+            random_y,
+            duration=random.uniform(0.5, 2),
+            tween=pyautogui.easeInOutQuad,
+        )
+
         # Wait for a random time before the next move
         time.sleep(random.uniform(0.5, 1.5))
-        
+
+
 def random_scrol_l(duration):
     start_time = time.time()
-    
+
     while time.time() - start_time < duration:
         # Generate a random scroll amount
         scroll_amount = random.randint(300, 500)
-        
+
         # Scroll the page
         pyautogui.scroll(scroll_amount)
-        
+
         # Wait for a random time before the next scroll
         time.sleep(random.uniform(1, 2.5))
-        
+
 
 # def human_like_scroll(driver, duration):
 #     """
@@ -206,15 +222,16 @@ def random_scrol_l(duration):
 #     while time.time() < end_time:
 #         # Generate a random scroll amount
 #         scroll_amount = random.randint(200, 800)
-        
+
 #         # Scroll up or down randomly
 #         scroll_direction = random.choice([-1, 1])
-        
+
 #         ActionChains(driver).scroll_by_amount(0, scroll_direction * scroll_amount).perform()
-        
+
 #         # Random sleep to simulate human-like scroll intervals
 #         sleep_time = random.uniform(0.5, 2.0)
 #         time.sleep(sleep_time)
+
 
 def gentle_human_like_scroll(driver, duration):
     """
@@ -228,12 +245,14 @@ def gentle_human_like_scroll(driver, duration):
     while time.time() < end_time:
         # Generate a small random scroll amount
         scroll_amount = random.randint(20, 1000)
-        
+
         # Scroll up or down randomly
         scroll_direction = random.choice([-1, 1])
-        
-        ActionChains(driver).scroll_by_amount(0, scroll_direction * scroll_amount).perform()
-        
+
+        ActionChains(driver).scroll_by_amount(
+            0, scroll_direction * scroll_amount
+        ).perform()
+
         # Random sleep to simulate human-like scroll intervals
         sleep_time = random.uniform(0.5, 1)
         time.sleep(sleep_time)

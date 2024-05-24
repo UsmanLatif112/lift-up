@@ -1,4 +1,3 @@
-
 google_Search_data = "youtube"
 
 
@@ -13,5 +12,3 @@ def make_csv(filename: str, data, new=True):
     mode = "w" if new else "a"
     with open(filename, mode, newline="") as f:
         f.writelines(data)
-        
-        
