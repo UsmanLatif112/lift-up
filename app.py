@@ -19,7 +19,7 @@ scroll_move_delay = 3
 # ===============================
 
 
-while True:
+for i in range(100000):
     
     try:
         csv_file_path = "Keywords.csv"
@@ -144,7 +144,7 @@ while True:
                                 )
                                 time.sleep(1)
                                 if not result_mine:
-                                    print("Found result")
+                                    print("Found not result")
                                     current_time = datetime.datetime.now()
                                     homepage.make_csv(
                                         "Log.csv",
@@ -170,6 +170,7 @@ while True:
                                         print("error 3")
                                     continue
                                 if result_mine:
+                                    print("Result found")
                                     result_min_e = driver.find_elements(
                                         By.XPATH,
                                         "//a[contains(normalize-space(), 'Mattress Corner')]",
@@ -299,18 +300,6 @@ while True:
                             "\n",
                         ],
                     )
-                    continue
     except:
-        pass
         print("exception 6")
-        current_time = datetime.datetime.now()
-        homepage.make_csv(
-            "Log.csv", ["error on processing the script restarting", current_time]
-        )
-        homepage.make_csv(
-            "Log.csv",
-            [
-                "\n",
-            ],
-        )
         continue
