@@ -61,7 +61,7 @@ def create_profile():
                 #     # "password": '',
                 # },
                 "proxy": {
-                    "mode": "HTTPS",
+                    "mode": "http",
                     "host": Gateway,
                     "port": Port,
                     "username": Username,
